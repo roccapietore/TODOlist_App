@@ -9,7 +9,7 @@ jobs:
       - name: docker build
         run: docker build -t verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
       - name: docker login
-        run: docker login -u verevkinaee --password-stdin
+        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u verevkinaee --password-stdin
       - name: docker push
         run: docker push verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
   deploy:
@@ -46,5 +46,4 @@ jobs:
           script: |
             cd todolist
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
-
 
