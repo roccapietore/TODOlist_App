@@ -9,8 +9,6 @@ services:
 
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    ports:
-      - "8000:8000"
     environment:
       DB_USER: ${USER}
       DB_NAME: ${NAME}
