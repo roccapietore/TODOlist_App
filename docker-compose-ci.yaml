@@ -10,10 +10,11 @@ services:
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
-      DB_USER: ${USER}
-      DB_NAME: ${NAME}
-      DB_HOST: ${HOST}
-      DB_PASSWORD: ${PASSWORD}
+      DB_USER: $${USER}
+      DB_NAME: $${NAME}
+      DB_HOST: $${HOST}
+      DB_PASSWORD: $${PASSWORD}
+      DEBUG: $${DEBUG}
     depends_on:
       postgres:
         condition: service_healthy
