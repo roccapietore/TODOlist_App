@@ -9,8 +9,12 @@ services:
 
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    env_file:
-      - ./todolist/.env
+    environment:
+      DB_USER: ${USER}
+      DB_NAME: ${NAME}
+      DB_HOST: ${HOST}
+      DB_PASSWORD: ${PASSWORD}
+
     depends_on:
       postgres:
         condition: service_healthy
@@ -21,8 +25,9 @@ services:
 
   postgres:
         image: postgres
-        env_file:
-          - ./todolist/.env
+        environment:
+          POSTGRES_PASSWORD: ${PASSWORD}
+          POSTGRES_USER: ${USER}
         healthcheck:
           test: [ "CMD-SHELL", "pg_isready -U postgres" ]
           interval: 5s
