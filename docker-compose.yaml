@@ -13,13 +13,13 @@ services:
       - "8000:8000"
     env_file:
       - ./todolist/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
     command: >
       sh -c "python manage.py makemigrations core &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
-    depends_on:
-      postgres:
-        condition: service_healthy
 
   postgres:
         image: postgres
