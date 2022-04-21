@@ -15,7 +15,7 @@ services:
       DB_HOST: ${HOST}
       DB_PASSWORD: ${PASSWORD}
     depends_on:
-      - postgres:
+      postgres:
         condition: service_healthy
     command: >
       sh -c "python manage.py makemigrations core &&
