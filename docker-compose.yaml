@@ -26,7 +26,7 @@ services:
         env_file:
           - ./todolist/.env
         healthcheck:
-          test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+          test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres_2" ]
           interval: 5s
           timeout: 5s
           retries: 5
