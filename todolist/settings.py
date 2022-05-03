@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'social_django',
+    'social_django_mongoengine',
     "corsheaders",
     'core'
 ]
@@ -140,6 +143,12 @@ CSRF_TRUSTED_ORIGINS = (
     'http://127.0.0.1:8080',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_STORAGE = 'social_django_mongoengine.models.DjangoStorage'
 
 
 
