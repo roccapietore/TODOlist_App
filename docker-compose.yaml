@@ -1,18 +1,20 @@
 version: "3.9"
 services:
   front:
-    image: sermalenk/skypro-front:lesson_35
+    image: sermalenk/skypro-front:lesson_36
     ports:
       - "8080:80"
     depends_on:
       - api
+   # networks:
+    #  - frontnetwork
 
   api:
     build: .
     environment:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
-      DB_HOST: ${DB_HOST}
+      DB_HOST: postgres
       DB_PASSWORD: ${DB_PASSWORD}
     #env_file:
     #  - ./todolist/.env
@@ -24,22 +26,35 @@ services:
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+    #links:
+    #  - postgres:postgres
+   # networks:
+    #  - frontnetwork
+    #  - dbnetwork
 
   postgres:
     image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
       #POSTGRES_DB: ${DB_NAME}
       #env_file:
       #  - ./todolist/.env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres2"]
       interval: 5s
       timeout: 5s
       retries: 5
     volumes:
       - ./db/:/var/lib/postgresql/data
+    #networks:
+      #- dbnetwork
 
+#networks:
+ # frontnetwork:
+  #  driver: bridge
+ # dbnetwork:
+ #   driver: bridge
