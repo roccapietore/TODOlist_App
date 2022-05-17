@@ -7,3 +7,4 @@ urlpatterns = [
     path('profile', EditProfileView.as_view()),
     path('update_password', UpdatePasswordView.as_view()),
 ]
+
