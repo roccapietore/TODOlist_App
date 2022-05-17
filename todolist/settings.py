@@ -149,8 +149,8 @@ AUTH_USER_MODEL = "core.User"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = (
-    "http://127.0.0.1",
-    "http://localhost"
+    "http://127.0.0.1:8080",
+    "http://localhost:8080",
 )
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True

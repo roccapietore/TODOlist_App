@@ -16,8 +16,6 @@ services:
       DB_NAME: ${DB_NAME}
       DB_HOST: postgres
       DB_PASSWORD: ${DB_PASSWORD}
-      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
-      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     #env_file:
     #  - ./todolist/.env
     depends_on:
