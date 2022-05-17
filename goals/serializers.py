@@ -1,5 +1,6 @@
 from django.db import transaction
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 
 from core.models import User
@@ -15,6 +16,16 @@ class CategoryCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created", "updated", "user")
         fields = "__all__"
 
+    def validate_board(self, attrs):
+        if attrs.is_deleted:
+            raise ValidationError('Can`t delete this category')
+
+        if not BoardParticipant.object.filter(
+                board=attrs,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user=self.context["request"].user).exist():
+            raise ValidationError('You are not the owner or writer of this category')
+
 
 class GoalCategorySerializer(ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -22,7 +33,7 @@ class GoalCategorySerializer(ModelSerializer):
     class Meta:
         model = GoalCategory
         fields = "__all__"
-        read_only_fields = ("id", "created", "updated", "user")
+        read_only_fields = ("id", "created", "updated", "user", 'board')
 
 
 class GoalSerializer(ModelSerializer):
@@ -37,30 +48,44 @@ class GoalSerializer(ModelSerializer):
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 
-        if value.user != self.context["request"].user:
-            raise serializers.ValidationError("not owner of category")
-        return value
+        if self.instance.category.board_id != value.board_id:
+            raise ValidationError("Transfer between projects is not allowed")
 
 
 class GoalCreateSerializer(GoalSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
+    def validate_category(self, attrs):
+        if not BoardParticipant.object.filter(
+                board=attrs.board_id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user=self.context["request"].user).exist():
+            raise ValidationError('You are not the owner or writer of this category')
+        return attrs
+
 
 class CommentCreateSerializer(ModelSerializer):
-
     class Meta:
         model = GoalComment
         fields = "__all__"
         read_only_fields = ("id", "created", "updated")
 
-    def validate_category(self, value):
-        if value.uset != self.context["request"].user:
-            raise serializers.ValidationError("You are not the owner")
-        return value
+    def validate_category(self, attrs):
+        if not BoardParticipant.object.filter(
+                board=attrs.category.board_id,
+                role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
+                user=self.context["request"].user).exist():
+            raise ValidationError('You are not the owner or writer of this category')
+        return attrs
 
 
-class CommentSerializer(CommentCreateSerializer):
-    user = UserSerializer(read_only=True, source='goal.user')
+class CommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = GoalComment
+        fields = "__all__"
+        read_only_fields = ("id", "created", "updated", 'user', 'goal')
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
@@ -131,4 +156,3 @@ class BoardListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = "__all__"
-
