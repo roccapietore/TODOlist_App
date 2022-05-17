@@ -8,5 +8,6 @@ urlpatterns = [
     path('login', LoginView.as_view()),
     path('profile', EditProfileView.as_view()),
     path('update_password', UpdatePasswordView.as_view()),
+    #path('login', csrf_exempt(LoginView.as_view())),
 ]
 
