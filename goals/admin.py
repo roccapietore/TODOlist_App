@@ -67,7 +67,7 @@ class BoardAdmin(admin.ModelAdmin):
         return obj.participants.filter(role=BoardParticipant.Role.owner).get().user
 
     def participants_count(self, obj):
-        return obj.participants_count() - 1
+        return obj.participants_count - 1
 
     owner.short_description = 'Создатель доски'
     participants_count.short_description = 'Количество участников'

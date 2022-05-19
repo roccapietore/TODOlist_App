@@ -44,7 +44,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         with transaction.atomic():
             instance.is_deleted = True
-            instance.goals.update(status=Goal.Status.archived)
             instance.save()
+            Goal.objects.filter(category=instance).update(status=Goal.Status.archived)
         return instance
 
