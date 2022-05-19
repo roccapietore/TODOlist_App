@@ -1,6 +1,6 @@
 from django.db import transaction
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from goals.models import Board, Goal
 from goals.permissions import BoardPermissions
@@ -19,11 +19,10 @@ class BoardView(RetrieveUpdateDestroyAPIView):
     serializer_class = BoardSerializer
 
     def get_queryset(self):
-        return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
+        return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
 
     def perform_destroy(self, instance: Board):
-        # При удалении доски помечаем ее как is_deleted,
-        # «удаляем» категории, обновляем статус целей
+        # При удалении доски помечаем ее как is_deleted, «удаляем» категории, обновляем статус целей
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
@@ -32,7 +31,7 @@ class BoardView(RetrieveUpdateDestroyAPIView):
         return instance
 
 
-class BoardListView(CreateAPIView):
+class BoardListView(ListAPIView):
     model = Board
     permission_classes = [BoardPermissions]
     serializer_class = BoardListSerializer
@@ -40,6 +39,6 @@ class BoardListView(CreateAPIView):
     ordering = ['title']
 
     def get_queryset(self):
-        return Board.objects.filter(participants__user=self.request.user, is_deleted=False)
+        return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
 
 

@@ -9,8 +9,8 @@ def create_objects(apps, schema_editor):
     GoalCategory = apps.get_model("goals", "GoalCategory")
 
     with transaction.atomic():
+        time_ = timezone.now()
         for user_id in User.objects.values_list('id', flat=True):
-            time_ = timezone.now()
             new_board = Board.objects.create(
                 title="Мои цели",
                 created=time_,
