@@ -171,4 +171,3 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_ERROR_URL = '/login-error/'
 
 LOGIN_URL = 'core:login'
-
