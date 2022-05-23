@@ -70,14 +70,16 @@ class GoalCreateSerializer(GoalSerializer):
 
 
 class CommentCreateSerializer(ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = GoalComment
         fields = "__all__"
-        read_only_fields = ("id", "created", "updated")
+        read_only_fields = ("id", "created", "updated", 'user')
 
     def validate_category(self, attrs):
         if not BoardParticipant.objects.filter(
-                board=attrs.category.board_id,
+                board_id=attrs.category.board_id,
                 role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer],
                 user=self.context["request"].user).exists():
             raise ValidationError('You are not the owner or writer of this category')
