@@ -78,6 +78,8 @@ class GoalComment(DatesModelMixin):
 
     goal = models.ForeignKey(Goal, verbose_name="Цель", on_delete=models.PROTECT, related_name='goal_comments')
     text = models.CharField(verbose_name="Текст", max_length=255)
+    user = models.ForeignKey(User, verbose_name="Автор", related_name='comments', on_delete=models.PROTECT,
+                             default=None, null=True)
 
     def __str__(self):
         return self.text
