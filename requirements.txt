@@ -30,7 +30,6 @@ social-auth-core==4.2.0
 social-auth-storage-mongoengine==1.0.1
 sqlparse==0.4.2
 urllib3==1.26.9
-
 marshmallow~=3.15.0
-
 pydantic~=1.9.1
+emoji~=1.7.0
