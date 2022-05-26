@@ -7,6 +7,18 @@ services:
     depends_on:
       - api
 
+  migrations:
+    image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate"
+    volumes:
+      - .:/code
+
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
@@ -20,8 +32,7 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      sh -c "python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py runserver 0.0.0.0:8000"
 
   postgres:
     image: postgres
@@ -35,3 +46,18 @@ services:
       retries: 5
     volumes:
       - ./db/:/var/lib/postgresql/data
+
+  telegram_bot:
+    image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      sh -c "python manage.py runbot"
+    volumes:
+      - .:/code
