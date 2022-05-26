@@ -48,5 +48,5 @@ class CommentAdmin(admin.ModelAdmin):
 class BoardAdmin(admin.ModelAdmin):
     list_display = ("title", "is_deleted")
     search_fields = ("title",)
-    list_filter = ("title", "is_deleted",)
+    list_filter = ("is_deleted",)
 
