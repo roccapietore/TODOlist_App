@@ -27,7 +27,6 @@ jobs:
       DB_HOST: ${{ secrets.DB_HOST }}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY }}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET }}
-      POSTGRES_HOST: ${{ secrets.DB_HOST }}
 
     steps:
       - name: clone code
