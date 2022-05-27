@@ -31,11 +31,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
 
   postgres:
     image: postgres
+    restart: always
     environment:
         POSTGRES_USER: ${DB_USER}
         POSTGRES_PASSWORD: ${DB_PASSWORD}
