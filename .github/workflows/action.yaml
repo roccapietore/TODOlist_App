@@ -26,10 +26,6 @@ jobs:
       DB_HOST: ${{ secrets.DB_HOST }}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_KEY }}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${{ secrets.SOCIAL_AUTH_VK_OAUTH2_SECRET }}
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.SSH_USERNAME }}
-      password: ${{ secrets.SSH_PASSWORD }}
-
 
     steps:
       - name: clone code
