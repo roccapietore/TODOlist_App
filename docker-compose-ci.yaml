@@ -10,14 +10,18 @@ services:
   migrations:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     depends_on:
       postgres:
         condition: service_healthy
     command: >
       sh -c "python manage.py migrate"
-    volumes:
-      - .:/code
+
 
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -53,7 +57,12 @@ services:
   telegram_bot:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
     restart: always
     depends_on:
       postgres:
@@ -62,6 +71,5 @@ services:
         condition: service_completed_successfully
     command: >
       sh -c "python manage.py runbot"
-    volumes:
-      - .:/code
+
 
