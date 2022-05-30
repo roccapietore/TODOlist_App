@@ -51,6 +51,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./db/:/var/lib/postgresql/data
 
 
   telegram_bot:
