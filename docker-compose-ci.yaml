@@ -71,5 +71,6 @@ services:
     command: >
       sh -c "python manage.py runbot"
 
+
 volumes:
   pg_data:
