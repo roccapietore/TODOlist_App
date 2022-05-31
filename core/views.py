@@ -1,6 +1,5 @@
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from core.models import User
 from core.serializers import CreateUserSerializer, LoginSerializer, UserSerializer, UpdatePasswordSerializer

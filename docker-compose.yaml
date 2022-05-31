@@ -52,7 +52,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./db/:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
 
 
   telegram_bot:
@@ -70,3 +70,5 @@ services:
     volumes:
       - .:/code
 
+volumes:
+  pg_data:

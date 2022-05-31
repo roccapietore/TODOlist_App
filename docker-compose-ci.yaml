@@ -52,7 +52,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./db/:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
 
   telegram_bot:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
@@ -73,3 +73,5 @@ services:
       sh -c "python manage.py runbot"
 
 
+volumes:
+  pg_data:
