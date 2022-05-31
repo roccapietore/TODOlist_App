@@ -10,6 +10,10 @@ services:
   migrations:
     build: .
     environment:
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
       POSTGRES_HOST: postgres
     depends_on:
       postgres:
@@ -59,7 +63,10 @@ services:
   telegram_bot:
     build: .
     environment:
-      POSTGRES_HOST: postgres
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
     restart: always
     depends_on:
       postgres:
