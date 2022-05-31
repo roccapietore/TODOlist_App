@@ -22,7 +22,6 @@ services:
     command: >
       sh -c "python manage.py migrate"
 
-
   api:
     image: verevkinaee/todolist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     environment:
@@ -71,7 +70,6 @@ services:
         condition: service_completed_successfully
     command: >
       sh -c "python manage.py runbot"
-
 
 volumes:
   pg_data:
