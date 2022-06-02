@@ -50,13 +50,24 @@ class TestBoard(APITestCase):
         response = self.client.get(reverse(viewname='board_id', kwargs={'pk': 10000}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_update_board(self):
+    def test_partially_update_board(self):
         self.client.force_login(self.user)
         response = self.client.patch(reverse(viewname='board_id', kwargs={'pk': self.new_board.pk}),
                                      {'title': 'New_title'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         resp_json = response.json()
         self.assertEqual(resp_json['title'], 'New_title')
+
+    # def test_update_board(self):
+    #     self.client.force_login(self.user)
+    #     response = self.client.put(reverse(viewname='board_id', kwargs={'pk': self.new_board.pk}),
+    #                                {'title': 'New_title', 'is_deleted': False,
+    #                                 'participants': {
+    #                                     'role': self.new_participant.role,
+    #                                     'user': self.user.username}})
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     resp_json = response.json()
+    #     self.assertEqual(resp_json['title'], 'New_title')
 
     def test_delete_board(self):
         self.client.force_login(self.user)

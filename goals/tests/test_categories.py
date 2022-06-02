@@ -54,6 +54,14 @@ class TestCategories(APITestCase):
 
     def test_update_category(self):
         self.client.force_login(self.user)
+        response = self.client.put(reverse(viewname='category_id', kwargs={'pk': self.category.pk}),
+                                   {'title': 'New_Category',  'board': self.board.pk})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        resp_json = response.json()
+        self.assertEqual(resp_json['title'], 'New_Category')
+
+    def test_partially_update_category(self):
+        self.client.force_login(self.user)
         response = self.client.patch(reverse(viewname='category_id', kwargs={'pk': self.category.pk}),
                                      {'title': 'New_Category'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
