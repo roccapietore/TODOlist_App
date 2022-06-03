@@ -8,12 +8,19 @@ from goals.serializers import BoardSerializer, BoardCreateSerializer, BoardListS
 
 
 class BoardCreateView(CreateAPIView):
+    """"
+    Создание досок доступно зарегистрированным пользователям.
+    """
     model = Board
     permission_classes = [IsAuthenticated]
     serializer_class = BoardCreateSerializer
 
 
 class BoardView(RetrieveUpdateDestroyAPIView):
+    """
+    Просмотр досок доступен всем зарегистрированным пользователям.
+    Редактирование, удаление досок доступно создателям доски.
+    """
     model = Board
     permission_classes = [BoardPermissions]
     serializer_class = BoardSerializer
@@ -22,7 +29,7 @@ class BoardView(RetrieveUpdateDestroyAPIView):
         return Board.objects.filter(participants__user=self.request.user.id, is_deleted=False)
 
     def perform_destroy(self, instance: Board):
-        # При удалении доски помечаем ее как is_deleted, «удаляем» категории, обновляем статус целей
+        """При удалении доски помечаем ее как is_deleted, «удаляем» категории, обновляем статус целей"""
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
@@ -32,6 +39,9 @@ class BoardView(RetrieveUpdateDestroyAPIView):
 
 
 class BoardListView(ListAPIView):
+    """
+    Просмотр списка досок доступен всем зарегистрированным пользователям.
+    """
     model = Board
     permission_classes = [BoardPermissions]
     serializer_class = BoardListSerializer

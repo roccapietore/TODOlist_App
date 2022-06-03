@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout
 
 
 class SignUpView(CreateAPIView):
+    """Регистрация пользователя"""
     model = User
     serializer_class = CreateUserSerializer
     permission_classes = [permissions.AllowAny]
@@ -19,6 +20,7 @@ class SignUpView(CreateAPIView):
 
 
 class LoginView(CreateAPIView):
+    """Вход по логину и паролю"""
     model = User
     serializer_class = LoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -34,6 +36,7 @@ class LoginView(CreateAPIView):
 
 
 class EditProfileView(RetrieveUpdateDestroyAPIView):
+    """Просмотр, редактирование текущего пользователя"""
     model = User
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -47,6 +50,7 @@ class EditProfileView(RetrieveUpdateDestroyAPIView):
 
 
 class UpdatePasswordView(UpdateAPIView):
+    """Смена пароля доступна всем зарегистрированным пользователям"""
     model = User
     serializer_class = UpdatePasswordSerializer
     permission_classes = [permissions.IsAuthenticated]

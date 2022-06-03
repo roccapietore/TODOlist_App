@@ -9,12 +9,18 @@ from goals.serializers import GoalCreateSerializer, GoalSerializer
 
 
 class GoalCreateView(CreateAPIView):
+    """"
+    Создание целей доступно создателю доски и редактору.
+    """
     model = Goal
     permission_classes = [GoalPermissions]
     serializer_class = GoalCreateSerializer
 
 
 class GoalListView(ListAPIView):
+    """
+    Просмотр списка целей доступен всем зарегистрированным пользователям.
+    """
     model = Goal
     permission_classes = [GoalPermissions]
     serializer_class = GoalSerializer
@@ -34,6 +40,10 @@ class GoalListView(ListAPIView):
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
+    """
+    Просмотр целей доступен зарегистрированным пользователям.
+    Редактирование, удаление целей доступно создателю доски и редактору.
+    """
     model = Goal
     serializer_class = GoalSerializer
     permission_classes = [GoalPermissions]
@@ -42,6 +52,7 @@ class GoalView(RetrieveUpdateDestroyAPIView):
         return Goal.objects.filter(category__board__participants__user=self.request.user)
 
     def perform_destroy(self, instance):
+        """Обновление статуса цели после ее выполнения. Удаление цели с доски"""
         instance.status = Goal.Status.archived
         instance.save()
         return instance

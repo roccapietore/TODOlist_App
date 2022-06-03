@@ -23,6 +23,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, attrs):
+        """Если введенные пароли не совпадают, появляется ошибка"""
         password = attrs.get("password")
         password_repeat = attrs.pop("password_repeat", None)
         if password != password_repeat:
@@ -69,6 +70,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UpdatePasswordSerializer(serializers.ModelSerializer):
+    """Проверка  ввода старого пароля на корректность, замена старого пароля на новый и его хеширование"""
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True, validators=[validate_password])
 
