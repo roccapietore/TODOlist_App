@@ -13,9 +13,11 @@ services:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
       DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
       DB_PASSWORD: ${DB_PASSWORD}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+      BOT_TOKEN: ${BOT_TOKEN}
       SECRET_KEY: ${SECRET_KEY}
     depends_on:
       postgres:
@@ -29,10 +31,12 @@ services:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
       DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
       DB_PASSWORD: ${DB_PASSWORD}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
       SECRET_KEY: ${SECRET_KEY}
+      BOT_TOKEN: ${BOT_TOKEN}
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,6 +66,7 @@ services:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
       DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
       DB_PASSWORD: ${DB_PASSWORD}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}

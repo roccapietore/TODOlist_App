@@ -13,9 +13,12 @@ services:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
       DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
       DB_PASSWORD: ${DB_PASSWORD}
       POSTGRES_HOST: postgres
       SECRET_KEY: ${SECRET_KEY}
+      BOT_TOKEN: ${BOT_TOKEN}
+
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,7 +36,9 @@ services:
       DB_NAME: ${DB_NAME}
       DB_HOST: postgres
       DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
       SECRET_KEY: ${SECRET_KEY}
+      BOT_TOKEN: ${BOT_TOKEN}
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,8 +72,10 @@ services:
       DB_USER: ${DB_USER}
       DB_NAME: ${DB_NAME}
       DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
       DB_PASSWORD: ${DB_PASSWORD}
       SECRET_KEY: ${SECRET_KEY}
+      BOT_TOKEN: ${BOT_TOKEN}
     restart: always
     depends_on:
       postgres:
