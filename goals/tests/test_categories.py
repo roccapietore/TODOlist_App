@@ -3,15 +3,21 @@ from rest_framework.test import APITestCase
 from django.urls import reverse
 from core.models import User
 from goals.models import GoalCategory, Board, BoardParticipant
-from goals.tests import base_test
 
 
-class TestCategories(base_test.TestBase):
-    def setUp(self) -> None:
-        super().setUp()
+class TestCategories(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create(username='User', password='po324ure11')
+        self.board = Board.objects.create(title='Title')
+        self.category = GoalCategory.objects.create(title='Category', user=self.user, board=self.board)
+        self.new_participant = BoardParticipant.objects.create(board=self.board, user=self.user, role=1)
 
-    def tearDown(self) -> None:
-        super().tearDown()
+    def tearDown(self):
+        self.client.logout()
+        BoardParticipant.objects.all().delete()
+        GoalCategory.objects.all().delete()
+        Board.objects.all().delete()
+        User.objects.all().delete()
 
     # def test_auth_req_category(self):
     #     response = self.client.put(reverse(viewname='category_id', kwargs={'pk': self.category.pk}), {})

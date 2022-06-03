@@ -1,14 +1,21 @@
 from rest_framework import status
+from rest_framework.test import APITestCase
 from django.urls import reverse
-from goals.tests import base_test
+from core.models import User
+from goals.models import Board, BoardParticipant
 
 
-class TestBoard(base_test.TestBase):
-    def setUp(self) -> None:
-        super().setUp()
+class TestBoard(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create(username='User', password='po324ure11')
+        self.new_board = Board.objects.create(title='Title')
+        self.new_participant = BoardParticipant.objects.create(board=self.new_board, user=self.user, role=1)
 
-    def tearDown(self) -> None:
-        super().tearDown()
+    def tearDown(self):
+        self.client.logout()
+        BoardParticipant.objects.all().delete()
+        Board.objects.all().delete()
+        User.objects.all().delete()
 
     def test_auth_req(self):
         url = reverse('board_create')
@@ -33,7 +40,7 @@ class TestBoard(base_test.TestBase):
 
     def test_get_board_by_id(self):
         self.client.force_login(self.user)
-        response = self.client.get(reverse(viewname='board_id', kwargs={'pk': self.board.pk}))
+        response = self.client.get(reverse(viewname='board_id', kwargs={'pk': self.new_board.pk}))
         resp_json = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(resp_json['title'], 'Title')
@@ -45,7 +52,7 @@ class TestBoard(base_test.TestBase):
 
     def test_partially_update_board(self):
         self.client.force_login(self.user)
-        response = self.client.patch(reverse(viewname='board_id', kwargs={'pk': self.board.pk}),
+        response = self.client.patch(reverse(viewname='board_id', kwargs={'pk': self.new_board.pk}),
                                      {'title': 'New_title'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         resp_json = response.json()
@@ -64,6 +71,6 @@ class TestBoard(base_test.TestBase):
 
     def test_delete_board(self):
         self.client.force_login(self.user)
-        response = self.client.delete(reverse(viewname='board_id', kwargs={'pk': self.board.pk}))
+        response = self.client.delete(reverse(viewname='board_id', kwargs={'pk': self.new_board.pk}))
         self.assertEqual(response.data, None)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

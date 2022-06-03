@@ -1,14 +1,26 @@
 from rest_framework import status
+from rest_framework.test import APITestCase
 from django.urls import reverse
-from goals.tests import base_test
+from core.models import User
+from goals.models import Board, Goal, GoalCategory, BoardParticipant
 
 
-class TestGoals(base_test.TestBase):
-    def setUp(self) -> None:
-        super().setUp()
+class TestGoals(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create(username='User', password='po324ure11')
+        self.board = Board.objects.create(title='Board_title')
+        self.category = GoalCategory.objects.create(title='Category', user=self.user, board=self.board)
+        self.goal = Goal.objects.create(title='Goal_title', category=self.category,
+                                        status=1, priority=1, user=self.user)
+        self.participant = BoardParticipant.objects.create(board=self.board, user=self.user, role=1)
 
-    def tearDown(self) -> None:
-        super().tearDown()
+    def tearDown(self):
+        self.client.logout()
+        Goal.objects.all().delete()
+        GoalCategory.objects.all().delete()
+        BoardParticipant.objects.all().delete()
+        Board.objects.all().delete()
+        User.objects.all().delete()
 
     # def test_auth_req_goal(self):
     #     url = reverse('goal_create')
