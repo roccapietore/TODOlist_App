@@ -25,7 +25,7 @@ class TestComments(APITestCase):
         User.objects.all().delete()
 
     # def test_auth_req_comment(self):
-    #     url = reverse('comment_create')
+    #     url = reverse(viewname='comment_create')
     #     response = self.client.post(url, {'title': 'new_one', 'category': self.category.pk})
     #     self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

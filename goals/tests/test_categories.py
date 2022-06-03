@@ -20,7 +20,7 @@ class TestCategories(APITestCase):
         User.objects.all().delete()
 
     # def test_auth_req_category(self):
-    #     response = self.client.delete(reverse(viewname='category_id', kwargs={'pk': self.category.pk}))
+    #     response = self.client.put(reverse(viewname='category_id', kwargs={'pk': self.category.pk}), {})
     #     self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_create_category(self):
