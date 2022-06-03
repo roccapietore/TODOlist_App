@@ -43,7 +43,7 @@ services:
       - .:/code
 
   postgres:
-    image: postgres:13-alpine
+    image: postgres:latest
     restart: always
     ports:
       - "5432:5432"
