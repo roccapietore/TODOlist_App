@@ -1,28 +1,14 @@
 from rest_framework import status
-from rest_framework.test import APITestCase
 from django.urls import reverse
-from core.models import User
-from goals.models import GoalComment, Goal, GoalCategory, Board, BoardParticipant
+from goals.tests import base_test
 
 
-class TestComments(APITestCase):
-    def setUp(self):
-        self.user = User.objects.create(username='User', password='po324ure11')
-        self.board = Board.objects.create(title='Title')
-        self.category = GoalCategory.objects.create(title='Category', user=self.user, board=self.board)
-        self.goal = Goal.objects.create(title='Goal_title', category=self.category,
-                                        status=1, priority=1, user=self.user)
-        self.comment = GoalComment.objects.create(text='Comment_text', goal=self.goal, user=self.user)
-        self.participant = BoardParticipant.objects.create(board=self.board, user=self.user, role=1)
+class TestComments(base_test.TestBase):
+    def setUp(self) -> None:
+        super().setUp()
 
-    def tearDown(self):
-        self.client.logout()
-        GoalComment.objects.all().delete()
-        Goal.objects.all().delete()
-        GoalCategory.objects.all().delete()
-        BoardParticipant.objects.all().delete()
-        Board.objects.all().delete()
-        User.objects.all().delete()
+    def tearDown(self) -> None:
+        super().tearDown()
 
     # def test_auth_req_comment(self):
     #     url = reverse(viewname='comment_create')
