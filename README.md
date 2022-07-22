@@ -1,6 +1,7 @@
 # TODOlist_app
 
 *Приложение для работы с персональными задачами*
+=
 
 Реализованы следующие задачи: 
 1) Подключена база данных Postgres, создана кастомная модель пользователя, добавлена модель пользователя в Django admin;
@@ -13,6 +14,7 @@
 
 
 *Application for managing personal tasks*
+=
 
 Tasks have been implemented:
 1) Postgres database connected, custom user model created, user model added to Django admin;
